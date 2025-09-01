@@ -79,22 +79,50 @@ python3 Docker-all-install.py --lang en
 - 自定义Webhook
 
 **使用方法**:
-```bash
-# 设置环境变量配置
-export API_TOKEN="your_leichi_api_token"
-export WECOM_WEBHOOK="your_wecom_webhook_url"
 
-# 运行脚本
-python3 LuckySSLtoSafeLine.py
+1. **配置Lucky证书映射**
+   - 在Lucky SSL/TLS证书中打开编辑证书
+   - 启用证书映射功能
+   - 自定义映射路径：`/data/lucky/*证书名*`
+   - 证书变化后触发脚本：`python3 /data/lucky/*证书名*/LuckySSLtoSafeLine.py`
+
+2. **配置脚本参数**
+   - 在脚本内设置雷池API地址：`API_BASE_URL`
+   - 配置雷池API Token：`API_TOKEN`
+   - 设置消息推送渠道配置（WebHook、企业微信、钉钉等）
+
+3. **上传脚本文件**
+   - 使用Lucky的FileBrowser或其他工具
+   - 将脚本上传到自定义映射路径：`/data/lucky/*证书名*/`
+
+4. **自动触发执行**
+   - 配置完成后，证书有变化会自动触发脚本执行
+   - 脚本自动读取证书文件并同步到雷池
+
+**配置示例**:
+```bash
+# 脚本路径示例
+/data/lucky/example.com/LuckySSLtoSafeLine.py
+
+# 测试触发命令示例
+python3 /data/lucky/example.com/LuckySSLtoSafeLine.py
 ```
 
 **配置说明**:
-- 需要配置雷池管理端API Token
-- 支持环境变量配置推送渠道
-- 可自定义Lucky证书文件路径（默认：/data/lucky）
+- 需要在脚本内配置雷池管理端API地址和Token
+- 支持多种消息推送渠道配置（企业微信、钉钉、飞书等）
+- 证书映射路径格式：`/data/lucky/*证书名*`
 - 支持多种证书类型和域名模式
+- 脚本会自动在映射路径中查找证书文件（.crt和.key）
 
 **适用场景**: Lucky证书自动化管理、SSL证书自动更新、雷池证书同步、运维自动化
+
+**工作流程**:
+1. Lucky申请/更新SSL证书
+2. 证书文件保存到映射路径
+3. Lucky自动触发脚本执行
+4. 脚本读取证书文件并上传到雷池
+5. 发送操作结果通知
 
 **官方文档**: [Lucky SSL模块文档](https://lucky666.cn/docs/modules/ssl)
 
