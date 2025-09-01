@@ -4,7 +4,9 @@
 
 ## 📁 工具脚本说明
 
-### 🐳 Docker-all-install.py
+<details>
+<summary><strong>🐳 Docker-all-install.py</strong> - 跨平台Docker和Docker Compose自动安装脚本</summary>
+
 **功能描述**: 跨平台Docker和Docker Compose自动安装脚本
 
 **主要特性**:
@@ -29,9 +31,11 @@ python3 Docker-all-install.py --lang en
 
 **适用场景**: 新服务器环境配置、Docker环境快速部署、开发环境搭建
 
----
+</details>
 
-### 🎯 朱雀自动转盘抽奖及统计-1.4.js
+<details>
+<summary><strong>🎯 朱雀自动转盘抽奖及统计-1.4.js</strong> - 朱雀PT站点自动转盘抽奖脚本</summary>
+
 **功能描述**: 朱雀PT站点自动转盘抽奖脚本（Tampermonkey用户脚本）
 
 **主要特性**:
@@ -56,9 +60,11 @@ python3 Docker-all-install.py --lang en
 
 **适用场景**: 朱雀PT站点用户、自动化抽奖、道具管理
 
----
+</details>
 
-### 🔐 LuckySSLtoSafeLine.py
+<details>
+<summary><strong>🔐 LuckySSLtoSafeLine.py</strong> - Lucky证书自动更新同步工具</summary>
+
 **功能描述**: Lucky证书自动更新同步工具，将Lucky申请的SSL证书自动同步到雷池中进行更新
 
 **主要特性**:
@@ -126,13 +132,74 @@ python3 /data/lucky/example.com/LuckySSLtoSafeLine.py
 
 **官方文档**: [Lucky SSL模块文档](https://lucky666.cn/docs/modules/ssl)
 
----
+</details>
+
+<details>
+<summary><strong>📡 webhook_notify_docker.sh</strong> - subs-check项目执行结果统计通知脚本</summary>
+
+**功能描述**: subs-check项目执行结果统计通知脚本，用于Docker环境下的节点测速完成后的WebHook通知推送
+
+**主要特性**:
+- 自动解析subs-check执行日志和统计信息
+- 智能提取节点数量、去重数量、成功节点数等关键数据
+- 自动计算订阅链接数量（本地+远程）
+- 支持流量消耗统计（GB单位）
+- 兼容Alpine Linux环境，使用wget发送请求
+- 卡片风格的通知内容，信息清晰易读
+
+**统计信息包含**:
+- 订阅链接数量统计
+- 获取节点数量（去重前）
+- 去重后节点数量
+- 成功节点数量
+- 测试总消耗流量
+- 测速完成时间
+
+**使用方法**:
+
+1. **配置WebHook地址**
+   - 在脚本中修改 `NOTIFY_HOST` 变量
+   - 设置为您的自定义WebHook通知地址
+
+2. **部署到subs-check项目**
+   - 将脚本放到Docker项目的config目录下
+   - 路径：`./config/webhook_notify_docker.sh`
+
+3. **配置回调脚本**
+   - 打开项目配置文件界面
+   - 修改 `callback-script: "/app/config/webhook_notify_docker.sh"`
+
+4. **自动执行**
+   - 项目运行完成后自动触发脚本
+   - 推送统计详细信息到自定义WebHook
+
+**配置示例**:
+```bash
+# 脚本中的WebHook配置
+NOTIFY_HOST="http://your-server:port/api/webhook?key=your_key"
+
+# 配置文件中的回调设置
+callback-script: "/app/config/webhook_notify_docker.sh"
+```
+
+**环境变量支持**:
+- `SUCCESS_COUNT`: 成功节点数量
+- `NODES_TOTAL`: 获取节点数量
+- `NODES_DEDUP`: 去重后节点数量
+- `TOTAL_TRAFFIC_GB`: 测试总消耗流量
+- `SUBS_COUNT_OVERRIDE`: 订阅链接数量覆盖值
+
+**适用场景**: subs-check项目Docker部署、节点测速结果通知
+
+**相关项目**: [subs-check](https://github.com/beck-8/subs-check)
+
+</details>
 
 ## 🚀 快速开始
 
 1. **克隆仓库**
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/KoWming/Toolset.git
    cd Toolset
    ```
 
@@ -140,6 +207,7 @@ python3 /data/lucky/example.com/LuckySSLtoSafeLine.py
    - Docker环境配置 → 使用 `Docker-all-install.py`
    - PT站点自动化 → 使用 `朱雀自动转盘抽奖及统计-1.4.js`
    - 证书管理迁移 → 使用 `LuckySSLtoSafeLine.py`
+   - 节点测速通知 → 使用 `webhook_notify_docker.sh`
 
 3. **查看具体使用说明**
    每个工具都有详细的注释和配置说明，请根据实际需求调整配置参数。
